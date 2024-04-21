@@ -9,6 +9,13 @@ public class LinkedList {
         head = new Node(data);
     }
 
+    public Node getHead() {
+        return head;
+    }
+    public void setHead(Node head) {
+        this.head = head;
+    }
+
     public boolean isEmpty() {
         return head == null;
     }
@@ -45,6 +52,23 @@ public class LinkedList {
         }
         newNode.next = head;
         head = newNode;
+    }
+    public void insertAt(int index, int data) {
+        if (index < 0 || index > size()) return;
+        if (index == 0) {
+            push(data);
+            return;
+        }
+        if(index == size() - 1) {
+            add(data);
+            return;
+        }
+        Node newNode = new Node(data);
+        Node current = head;
+        for (int i = 0; i < index - 1; i++) current = current.next;
+        Node temp = current.next;
+        current.next = newNode;
+        newNode.next = temp;
     }
     public void removeLast() {
 
@@ -104,6 +128,84 @@ public class LinkedList {
     public void print() {
         for (int i = 0; i < size(); i++) System.out.print(get(i) + " ");
         System.out.println();
+    }
+
+    // Some important questions on LinkedList
+
+    // Reverse a LinkedList
+    public void reverseIterative() {
+        Node current = head;
+        Node prev = null;
+        while (current != null) {
+            Node temp = current.next;
+            current.next = prev;
+            prev = current;
+            current = temp;
+        }
+        head = prev;
+    }
+    public Node reverseRecursive(Node head) {
+        if(head == null || head.next == null) return head;
+        Node newHead = reverseRecursive(head.next);
+        head.next.next = head;
+        head.next = null;
+        return newHead;
+    }
+
+    // Find the middle node
+    // Using fast-slow pointer
+    public Node midNode() {
+        Node fast = head;
+        Node slow = head;
+        while (fast.next != null && fast.next.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+
+    // Palindrome List
+    public boolean isPalindrome() {
+        if(head == null) return false;
+        if(head.next == null) return true;
+
+        // find the mid and reverse the 2nd half of the list
+        Node mid = midNode();
+        Node last = reverseRecursive(mid.next);
+        Node current = head;
+        while (last != null) {
+            if(last.data != current.data) return false;
+            last = last.next;
+            current = current.next;
+        }
+        return true;
+    }
+
+    // Detect Cycle in a LinkedList
+    // Floyd's Cycle Detection Algorithm (Using fast-slow pointers)
+    public Node detectCycle() {
+        if(head == null) return null;
+        Node fast = head;
+        Node slow = head;
+        while (fast.next != null && fast.next.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow) break;
+        }
+        return slow;
+    }
+
+    // Find the node where cycle starts
+    public Node detectStartCycle() {
+        if(head == null) return null;
+        Node meet = detectCycle();
+        if(meet == null) return null;
+        Node start = head;
+        while(start != meet) {
+            start = start.next;
+            meet = meet.next;
+        }
+        return start;
     }
 }
 
