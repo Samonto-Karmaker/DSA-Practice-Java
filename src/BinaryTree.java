@@ -46,6 +46,19 @@ public class BinaryTree {
         postOrder(root.right);
         System.out.print(root.data + " ");
     }
+
+    public int height(TreeNode root) {
+        if (root == null) return 0;
+        return Math.max(height(root.left), height(root.right)) + 1;
+    }
+    public int size(TreeNode root) {
+        if (root == null) return 0;
+        return size(root.left) + size(root.right) + 1;
+    }
+    public int maxNode(TreeNode root) {
+        if (root == null) return Integer.MIN_VALUE;
+        return Math.max(root.data, Math.max(maxNode(root.left), maxNode(root.right)));
+    }
 }
 
 class TreeNode {
