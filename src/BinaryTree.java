@@ -1,3 +1,8 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
+import java.util.LinkedList;
+
 public class BinaryTree {
     private TreeNode root;
     public BinaryTree(int[] data) {
@@ -58,6 +63,70 @@ public class BinaryTree {
     public int maxNode(TreeNode root) {
         if (root == null) return Integer.MIN_VALUE;
         return Math.max(root.data, Math.max(maxNode(root.left), maxNode(root.right)));
+    }
+
+    // Some important questions on Binary trees
+
+    // Level order traversal
+    // Approach 1: O(n^2)
+    /*
+    * First figure out how to print one level
+    * Use a loop to print all levels
+    */
+    private void printCurrentLevel(TreeNode root, int level) {
+        if (root == null) return;
+        if (level == 1) System.out.print(root.data + " ");
+        printCurrentLevel(root.left, level - 1);
+        printCurrentLevel(root.right, level - 1);
+    }
+    public void levelOrder1(TreeNode root) {
+        int height = height(root);
+        for(int i = 1; i <= height; i++) {
+            printCurrentLevel(root, i);
+        }
+    }
+    // Approach 2: O(n)
+    // Using Queue
+    public void levelOrder2(TreeNode root) {
+        if (root == null) return;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        while(!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            System.out.print(node.data + " ");
+            if(node.left != null) queue.add(node.left);
+            if(node.right != null) queue.add(node.right);
+        }
+    }
+
+    // Left view of a binary tree
+    private void leftViewUtil(TreeNode root, int[] list, int level) {
+        if (root == null) return;
+        if (list[level] == 0) list[level] = root.data;
+        leftViewUtil(root.left, list, level + 1);
+        leftViewUtil(root.right, list, level + 1);
+    }
+    public void leftView(TreeNode root, int height) {
+        int[] list = new int[height];
+        leftViewUtil(root, list, 0);
+        for (int i : list) {
+            System.out.print(i + " ");
+        }
+    }
+
+    // Right view of a binary tree
+    private void rightViewUtil(TreeNode root, int[] list, int level) {
+        if (root == null) return;
+        if (list[level] == 0) list[level] = root.data;
+        rightViewUtil(root.right, list, level + 1);
+        rightViewUtil(root.left, list, level + 1);
+    }
+    public void rightView(TreeNode root, int height) {
+        int[] list = new int[height];
+        rightViewUtil(root, list, 0);
+        for (int i : list) {
+            System.out.print(i + " ");
+        }
     }
 }
 
