@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 import java.util.LinkedList;
 
 public class BinaryTree {
@@ -128,6 +126,61 @@ public class BinaryTree {
             System.out.print(i + " ");
         }
     }
+
+    // Top view of a binary tree
+    public void topView(TreeNode root) {
+        if (root == null) return;
+
+        Queue<HorizontalDistance> queue = new LinkedList<>();
+        Map<Integer, Integer> map = new TreeMap<>();
+
+        // Horizontal distance
+        HorizontalDistance h = new HorizontalDistance(root, 0);
+        queue.offer(h);
+        while (!queue.isEmpty()) {
+            HorizontalDistance temp = queue.poll();
+            int hd = temp.hd;
+            if(!map.containsKey(hd)) {
+                map.put(temp.hd, temp.node.data);
+            }
+            if (temp.node.left != null) {
+                HorizontalDistance l = new HorizontalDistance(temp.node.left, hd - 1);
+                queue.offer(l);
+            }
+            if (temp.node.right != null) {
+                HorizontalDistance r = new HorizontalDistance(temp.node.right, hd + 1);
+                queue.offer(r);
+            }
+        }
+        for (int i : map.values()) System.out.print(i + " ");
+    }
+
+    // Bottom view of a binary tree
+    public void bottomView(TreeNode root) {
+        if (root == null) return;
+
+        Queue<HorizontalDistance> queue = new LinkedList<>();
+        Map<Integer, Integer> map = new TreeMap<>();
+
+        // Horizontal distance
+        HorizontalDistance h = new HorizontalDistance(root, 0);
+        queue.offer(h);
+        while (!queue.isEmpty()) {
+            HorizontalDistance temp = queue.poll();
+            int hd = temp.hd;
+            map.put(temp.hd, temp.node.data);
+
+            if (temp.node.left != null) {
+                HorizontalDistance l = new HorizontalDistance(temp.node.left, hd - 1);
+                queue.offer(l);
+            }
+            if (temp.node.right != null) {
+                HorizontalDistance r = new HorizontalDistance(temp.node.right, hd + 1);
+                queue.offer(r);
+            }
+        }
+        for (int i : map.values()) System.out.print(i + " ");
+    }
 }
 
 class TreeNode {
@@ -136,5 +189,19 @@ class TreeNode {
     TreeNode right;
     public TreeNode(int data) {
         this.data = data;
+    }
+}
+
+/*
+* This class helps to store the horizontal distance of a TreeNode
+* With respect to the root TreeNode
+* Useful to find the Top View and Bottom View of a Binary Tree
+*/
+class HorizontalDistance {
+    TreeNode node;
+    int hd;
+    public HorizontalDistance(TreeNode node, int hd) {
+        this.node = node;
+        this.hd = hd;
     }
 }
