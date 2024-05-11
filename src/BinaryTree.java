@@ -181,6 +181,27 @@ public class BinaryTree {
         }
         for (int i : map.values()) System.out.print(i + " ");
     }
+
+    /*
+    * Convert a binary tree into a doubly linked list (in place)
+    * Flatten a binary tree
+    * left -> prev; right -> next
+    * In order traversal
+    */
+    TreeNode prev = null, head = null;
+    public void flatten(TreeNode root) {
+        if (root == null) return;
+        flatten(root.left);
+        if (prev == null) {
+            head = root;
+        }
+        else {
+            root.left = prev;
+            prev.right = root;
+        }
+        prev = root;
+        flatten(root.right);
+    }
 }
 
 class TreeNode {
