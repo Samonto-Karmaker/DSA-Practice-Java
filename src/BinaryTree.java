@@ -188,10 +188,14 @@ public class BinaryTree {
     * left -> prev; right -> next
     * In order traversal
     */
-    TreeNode prev = null, head = null;
-    public void flatten(TreeNode root) {
+    private TreeNode prev = null, head = null;
+    public TreeNode flatten(TreeNode root) {
+        flattenUtil(root);
+        return head;
+    }
+    private void flattenUtil(TreeNode root) {
         if (root == null) return;
-        flatten(root.left);
+        flattenUtil(root.left);
         if (prev == null) {
             head = root;
         }
@@ -200,7 +204,36 @@ public class BinaryTree {
             prev.right = root;
         }
         prev = root;
-        flatten(root.right);
+        flattenUtil(root.right);
+    }
+
+    /*
+    * Diameter of a binary tree
+    * Maximum width of a binary tree
+    * The maximum distance from one node to another
+    */
+
+    // Time Complexity: O(n^2)
+    public int maxWidth(TreeNode root) {
+        if (root == null) return 0;
+        int leftWidth = maxWidth(root.left);
+        int rightWidth =  maxWidth(root.right);
+        int currentWidth = height(root.left) + height(root.right) + 1;
+        return Math.max(leftWidth, Math.max(rightWidth, currentWidth));
+    }
+
+    // Time Complexity: O(n)
+    private int ans = 0;
+    public int maxWidthOptimized(TreeNode root) {
+        maxWidthUtil(root);
+        return ans;
+    }
+    private int maxWidthUtil(TreeNode root) {
+        if (root == null) return 0;
+        int leftWidth = maxWidthUtil(root.left);
+        int rightWidth = maxWidthUtil(root.right);
+        ans = Math.max(ans, leftWidth + rightWidth + 1);
+        return Math.max(leftWidth, rightWidth) + 1;
     }
 }
 
