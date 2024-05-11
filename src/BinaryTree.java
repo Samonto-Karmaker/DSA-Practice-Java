@@ -235,6 +235,22 @@ public class BinaryTree {
         ans = Math.max(ans, leftWidth + rightWidth + 1);
         return Math.max(leftWidth, rightWidth) + 1;
     }
+
+    // Lowest Common Ancestor of 2 nodes of a binary tree
+    /*
+    * Use pre-order traversal (N L R)
+    * if current node == n1 or current node == n2, return current node
+    * if n1 and n2 are in different side of the current node, return current node
+    * if n1 and n2 are in the same side of the current node, return that side of the current node
+    */
+    public TreeNode lca(TreeNode root, int n1, int n2) {
+        if (root == null) return null;
+        if (root.data == n1 || root.data == n2) return root;
+        TreeNode left = lca(root.left, n1, n2);
+        TreeNode right = lca(root.right, n1, n2);
+        if (left != null && right != null) return root;
+        return left != null ? left : right;
+    }
 }
 
 class TreeNode {
