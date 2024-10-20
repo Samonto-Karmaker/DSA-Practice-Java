@@ -1,3 +1,6 @@
+import java.util.HashSet;
+import java.util.Set;
+
 public class BinarySearchTree {
 
     /*
@@ -157,5 +160,14 @@ public class BinarySearchTree {
             }
         }
         return ceil;
+    }
+
+    // is a pair with a given sum present in the BST? (Two Sum Problem in BST)
+    private Set<Integer> set = new HashSet<>();
+    public boolean isPairPresent(TreeNode root, int target) {
+        if (root == null) return false;
+        if (set.contains(target - root.data)) return true;
+        set.add(root.data);
+        return isPairPresent(root.left, target) || isPairPresent(root.right, target);
     }
 }
