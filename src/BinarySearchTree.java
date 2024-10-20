@@ -129,4 +129,33 @@ public class BinarySearchTree {
         printPostorder(root.right);
         System.out.print(root.data + " ");
     }
+
+    // Some popular problems on BST
+    // find the floor of a given key in a BST, which is the greatest element in the BST which is smaller than the given key
+    public int getFloor(TreeNode root, int key) {
+        int floor = Integer.MAX_VALUE;
+        while (root != null) {
+            if (root.data == key) return root.data;
+            if (root.data > key) root = root.left;
+            else {
+                floor = root.data;
+                root = root.right;
+            }
+        }
+        return floor;
+    }
+
+    // find the ceil of a given key in a BST, which is the smallest element in the BST which is greater than the given key
+    public int getCeil(TreeNode root, int key) {
+        int ceil = Integer.MIN_VALUE;
+        while (root != null) {
+            if (root.data == key) return root.data;
+            if (root.data < key) root = root.right;
+            else {
+                ceil = root.data;
+                root = root.left;
+            }
+        }
+        return ceil;
+    }
 }
