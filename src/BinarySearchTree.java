@@ -81,6 +81,35 @@ public class BinarySearchTree {
         return minVal(root.left);
     }
 
+    /*
+    * A Binary Search Tree is a binary tree in which all the nodes follow the below-mentioned properties −
+    * The left sub-tree of a node has a key less than its parent node's key.
+    * The right sub-tree of a node has a key greater than its parent node's key.
+    * The left and right sub-tree each must also be a binary search tree.
+    * There must be no duplicate nodes.
+    */
+
+    // Now, let's check if the given tree is a BST or not
+    // Approach 1: Using a range of values
+    public boolean isBST1(TreeNode root) {
+        return isBSTUtil(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+    private boolean isBSTUtil(TreeNode root, int min, int max) {
+        if (root == null) return true;
+        if (root.data < min || root.data > max) return false;
+        return isBSTUtil(root.left, min, root.data - 1) && isBSTUtil(root.right, root.data + 1, max);
+    }
+
+    // Approach 2: Using Inorder Traversal
+    private int prev = Integer.MIN_VALUE;
+    public boolean isBST2(TreeNode root) {
+        if (root == null) return true;
+        if (!isBST2(root.left)) return false;
+        if (root.data <= prev) return false;
+        prev = root.data;
+        return isBST2(root.right);
+    }
+
     // Inorder traversal of BST returns a sorted array!
     public void printInorder(TreeNode root) {
         if (root == null) return;
