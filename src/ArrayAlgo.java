@@ -43,4 +43,17 @@ public class ArrayAlgo {
         return maxSum;
     }
 
+    // Stock buy and sell, 1 transaction
+    // Time complexity: O(n), Space complexity: O(1)
+    // Intuition: find the minimum price and try to sell at each price
+    public static int maxProfit1(int[] prices) {
+        int minPrice = Integer.MAX_VALUE;
+        int maxProfit = 0;
+        for (int price : prices) {
+            minPrice = Math.min(minPrice, price);
+            maxProfit = Math.max(maxProfit, price - minPrice);
+        }
+        return maxProfit;
+    }
+
 }
