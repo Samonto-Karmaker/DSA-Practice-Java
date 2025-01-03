@@ -27,4 +27,20 @@ public class ArrayAlgo {
         return freq > arr.length / 2 ? arr[idx] : -1;
     }
 
+    // Time complexity: O(n), Space complexity: O(1)
+    // kadane's algorithm
+    // but this algorithm can't handle all negative numbers
+    public static int maxSumSubArray(int[] arr) {
+        int maxSum = Integer.MIN_VALUE;
+        int sum = 0;
+        for (int i : arr) {
+            sum += i;
+            maxSum = Math.max(maxSum, sum);
+            if (sum < 0) {
+                sum = 0;
+            }
+        }
+        return maxSum;
+    }
+
 }
