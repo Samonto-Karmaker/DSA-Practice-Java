@@ -56,4 +56,14 @@ public class ArrayAlgo {
         return maxProfit;
     }
 
+    // Stock buy and sell, infinite transactions
+    // Time complexity: O(n), Space complexity: O(1)
+    // Intuition: buy at valley and sell at peak
+    public static int maxProfit2(int[] prices) {
+        int maxProfit = 0;
+        for (int i = 1; i < prices.length; i++) {
+            maxProfit += Math.max(0, prices[i] - prices[i - 1]); // Only sell when profit is positive
+        }
+        return maxProfit;
+    }
 }
